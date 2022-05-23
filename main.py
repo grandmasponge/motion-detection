@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 
 cap = cv2.VideoCapture(0)
 
-object_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=35)
+object_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=0)
 
 while True:
     ret, frame = cap.read()
@@ -20,14 +20,14 @@ while True:
     for cnt in contours:
 
         area = cv2.contourArea(cnt)
-        if area > 100:
+        if area > 7000:
             x, y, w, h = cv2.boundingRect(cnt)
             cv2.rectangle(roi, (x, y), (x + w, y + h), (0, 225, 0), 3)
             cv2.putText(frame, "Status: {}".format('movement'), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
 
 
 
-
+    cv2.imshow('mask', mask)
     cv2.imshow('frame', frame)
 
     if cv2.waitKey(1) == ord('q'):
